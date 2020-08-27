@@ -21,15 +21,9 @@
         var l = gd._fullLayout.margin.l;
         var t = gd._fullLayout.margin.t;
 
-        gd.addEventListener("mousemove", function (evt) {
-          Plotly.relayout(gd, "title", ["x: " + x, "y : " + y].join("<br>"));
-        });
-
         gd.addEventListener("click", function (evt) {
           var xInDataCoord = roundHalf(xaxis.p2c(evt.x - l - pos.x));
-          var yInDataCoord = roundHalf(
-          yaxis.p2c(evt.y - t - pos.y + document.documentElement.scrollTop)
-          );
+          var yInDataCoord = roundHalf(yaxis.p2c(evt.y - t - pos.y + document.documentElement.scrollTop));
           x.push(xInDataCoord);
           y.push(yInDataCoord);
           Plotly.extendTraces(gd, { x: [[xInDataCoord]], y: [[yInDataCoord]] }, [0]);
