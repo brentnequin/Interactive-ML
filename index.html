@@ -1,1 +1,79 @@
-Hello World
+<head>
+  <title>Interactive Machine Learning</title>
+   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+   <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+  <div id="graph" style="position:static"> </div>
+  <script>
+    function getPosition(element) {
+  var rect = element.getBoundingClientRect();
+  return { x: rect.left, y: rect.top };
+}
+
+function roundHalf(num) {
+  return Math.round(num * 2) / 2;
+}
+
+function attach() {
+  var xaxis = gd._fullLayout.xaxis;
+  var yaxis = gd._fullLayout.yaxis;
+  var l = gd._fullLayout.margin.l;
+  var t = gd._fullLayout.margin.t;
+
+  gd.addEventListener("mousemove", function (evt) {
+    Plotly.relayout(gd, "title", ["x: " + x, "y : " + y].join("<br>"));
+  });
+
+  gd.addEventListener("click", function (evt) {
+    var xInDataCoord = roundHalf(xaxis.p2c(evt.x - l - pos.x));
+    var yInDataCoord = roundHalf(
+      yaxis.p2c(evt.y - t - pos.y + document.documentElement.scrollTop)
+    );
+    x.push(xInDataCoord);
+    y.push(yInDataCoord);
+    Plotly.extendTraces(gd, { x: [[xInDataCoord]], y: [[yInDataCoord]] }, [0]);
+  });
+}
+
+function resetPlot() {
+  x = [];
+  y = [];
+  data = [trace];
+  trace = { x: x, y: y, mode: "markers", type: "scatter" };
+  var layout = {
+    hovermode: "closest",
+    yaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
+    xaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
+    height: document.getElementById("graph").offsetWidth
+  };
+  Plotly.newPlot(gd, data, layout);
+}
+
+var d3 = Plotly.d3;
+var gd = document.getElementById("graph");
+var pos = getPosition(gd);
+
+var x = [1, 2, 2, 8, 8, 9];
+var y = [2, 1, 2, 8, 9, 8];
+trace = { x: x, y: y, mode: "markers", type: "scatter" };
+data = [trace];
+var layout = {
+  hovermode: "closest",
+  yaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
+  xaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
+  height: gd.offsetWidth
+};
+
+Plotly.newPlot(gd, data, layout).then(attach);
+
+  </script>
+  <p style="text-align:left;">
+    <label for="kvalue">k = </label>
+    <input type="text" id="kvalue" name="kvalue" value="2" size="1">
+    <span style="float:right;">
+      <button type="button" onclick="resetPlot()">Reset</button>
+      <button type="button" onclick="runPython()">Run</button>
+    </span>
+  </p>
+</body>
