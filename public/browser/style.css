@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: white;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  padding: 10px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+
+.navbar a:hover {
+  color: green;
+}
+
+.navbar .title {
+  font-size: 20px;
+}
+
+.navbar .item {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+p {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+input[type="number"] {
+   width:30px;
+}
+
+#kvalue-field, #runButton {display:none;padding:0px 10px;}
+
+/*--- Plotly Formatting ---*/
+
+.plotly {}
