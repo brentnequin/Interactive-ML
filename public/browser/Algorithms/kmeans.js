@@ -1,9 +1,10 @@
 function shuffle(array) {
   let shuffled = [];
-	while (array.length != 0) {
-		var ind = Math.floor(Math.random() * array.length);
-		shuffled.push(array[ind]);
-		array.splice(ind, 1);
+	let tmp = array.slice(0);
+	while (tmp.length != 0) {
+		var ind = Math.floor(Math.random() * tmp.length);
+		shuffled.push(tmp[ind]);
+		tmp.splice(ind, 1);
 	}
 	return shuffled; 
 }
@@ -41,10 +42,17 @@ function arrayIsEqual(a, b) {
 	return true;
 }
 
-function kmeans() {
-	const array = [[1,2], [2,1], [2,2], [5,5], [5,6], [6,5]];
-	var k = document.getElementById("kvalue").value;
-	
+function assignDataToCenteroids(x, c) {
+	let v = x.slice(0);
+	for (var i = 0; i < x.length; i++) {
+		v[i][2] = nearestCenteroid(x[i], c);
+	}
+	return v;
+}
+
+function kmeans(array, k) {
+	// input  => array: unsorted array of vertices, k: integer number of clusters
+	// output => c: array of vertices of cluster centers, p: array of original vertices with cluster center appended
 	var x = shuffle(array);
 	var c = [];
 	for (var i = 0; i < k; i++) c[i] = x[i];
@@ -70,6 +78,7 @@ function kmeans() {
 		c = c_new.splice(0);
 		step += 1;
 	}
+	return c;
 }
 
 module.exports = kmeans;
