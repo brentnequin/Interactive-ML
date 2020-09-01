@@ -1,3 +1,11 @@
+/*--- Exporting Functions ---*/
+function getTraces() {
+	let t = [];
+	for (var i = 0; i < x.length; i++) t[i] = [x[i],y[i]];
+	return t;
+}
+
+/*--- Tool Functions ---*/
 function getPosition(element) {
 	var rect = element.getBoundingClientRect();
 	return { x: rect.left, y: rect.top };
@@ -22,39 +30,74 @@ function attach() {
 	});
 }
 
+/*--- Plot Update Functions ---*/
 function resetPlot() {
-	x = [];
-	y = [];
-	data = [trace];
-	trace = { x: x, y: y, mode: "markers", type: "scatter" };
-	var layout = {
-		hovermode: "closest",
-		yaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
-		xaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
-		width: gd.offsetHeight
-	};
-	Plotly.newPlot(gd, data, layout);
+	for (var i = 0; i < numTraces; i++) {
+		Plotly.deleteTraces(gd, 0);
+	}
+	numTraces = 1;
+	Plotly.addTraces(gd, { x: x, y: y, mode: "markers", type: "scatter" });
 }
 
+function clearPlot() {
+	x = []; y = [];
+	for (var i = 0; i < numTraces; i++) {
+		Plotly.deleteTraces(gd, 0);
+	}
+	numTraces = 1;
+	Plotly.addTraces(gd, { x: x, y: y, mode: "markers", type: "scatter", });
+}
+
+function plotCenteroids(c, k) {
+	// 2d array to 1d arrays
+	let a; let b;
+	for (var i = 0; i < k; i++) {
+		a = c[i][0];
+		b = c[i][1];
+		Plotly.addTraces(gd,{ x: [a], y: [b], mode: "markers", type: "scatter", name:"Centeroid " + (i+1), marker:{color:'red', size:10}}, [i+1]);
+		numTraces += 1;
+	}
+}
+
+function plotDataToCenteroids(v, k) {
+	// v: x[n][m], [m = 2] is the trace/centeroid that x belongs to
+	Plotly.deleteTraces(gd, 0);
+	numTraces -= 1;
+	let x = [[],[]]; let y = [[],[]];
+	for (var i = 0; i < v.length; i++) {
+		x[v[i][2]].push(v[i][0]);
+		y[v[i][2]].push(v[i][1]);
+	}
+	for (var i = 0; i < k; i++) {
+		Plotly.addTraces(gd, { x: x[i], y: y[i], mode: "markers", type: "scatter", name:"Cluster " + (i+1)}, i+ +k);
+		numTraces += 1;
+	}
+}
+
+/*--- Plot Setup ---*/
 var d3 = Plotly.d3;
+var d3colors = Plotly.d3.scale.category10();
 var gd = document.getElementById("graph");
 var pos = getPosition(gd);
 
 var x = [1, 2, 2, 8, 8, 9];
 var y = [2, 1, 2, 8, 9, 8];
-trace = { x: x, y: y, mode: "markers", type: "scatter" };
-data = [trace];
+var numTraces = 1;
+var trace = { x: x, y: y, mode: "markers", type: "scatter" };
+var data = [trace];
 var layout = {
+	title: "Select an Algorithm",
 	hovermode: "closest",
-	yaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
-	xaxis: { fixedrange: true, range: [0, 10], tickmode: "linear" },
+	yaxis: {title: 'x', fixedrange: true, range: [0, 10], tickmode: "linear" },
+	xaxis: {title: 'y', fixedrange: true, range: [0, 10], tickmode: "linear" },
 	width: gd.offsetHeight,
 	margin: {
-		t:50,
-		b:50,
-		l:50,
-		r:50
-	}
+		t:60,
+		b:60,
+		l:60,
+		r:60
+	},
+	showlegend:false
 };
 
 /*--- Plot positioning ---*/
@@ -63,5 +106,5 @@ elH = divEl.offsetHeight - 70;
 elW = divEl.offsetWidth;
 document.querySelector(".plotly").style.height = elH;
 
-/*--- Plot plott ---*/
+/*--- Plot plot ---*/
 Plotly.newPlot(gd, data, layout).then(attach);
