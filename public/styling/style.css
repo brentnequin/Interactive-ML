@@ -45,4 +45,4 @@ input[type="number"] {
 
 /*--- Plotly Formatting ---*/
 
-.plotly {}
+.plotly {text-align: center;}
