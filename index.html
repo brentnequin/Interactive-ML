@@ -1,46 +1,71 @@
 <html>
-  <head>
-    <title>Interactive ML</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link id="cssTheme" rel="stylesheet" href="public/browser/style.css"/>
-  </head>
-	<body>
-		<div class="navbar">
-			<a id="titleButton" class="title" href="#">Interactive Machine Learning</a>
-			<div class="item">
-				<div class="dropdown">
-					<label for="algorithm"><p>Algorithm:</p> </label>
-					<select name="algorithm" id="algorithmSelect">
-						<option value="initial">Select an algorithm</option>
-						<option value="kmeans"><em>k</em>-Means</option>
-					</select>
-				</div>
-			</div>
-			<div class="item">
-				<div id="kvalue-field">
-					<label for="kvalue"><em>k</em> = </label>
-					<input type="number" id="kvalue" name="kvalue" value="2">
-				</div>
-			</div>
-			<div class="item">
-				<div id="runButton">
-					<button type="button">Run</button>
-				</div>
-			</div>
-		</div>
-		<div  class="plotly">
-			<div id="graph" style="height:100%;"></div>
-		</div>
-		<script>
-			$('[name=algorithm]').change(function(){
-				if ( this.value == 'kmeans') $('#kvalue-field').show();
-				else $('#kvalue-field').hide();
 
-				if(this.value == 'initial') $('#runButton').hide();
-				else $('#runButton').show();
-			});
-		</script>
-		<script type="text/javascript" src="public/browser/plot.js"></script>
-  </body>
+	<head>
+			<title>Interactive ML</title>
+			<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+			<link id="cssTheme" rel="stylesheet" href="public/styling/style.css" />
+			<script src="public/plot.js"></script>
+			<script src="public/browser/algorithms/kmeans.js"></script>
+	</head>
+
+	<body>
+			<div class="navbar">
+					<a id="titleButton" class="title" href="#">Interactive Machine Learning</a>
+					<div class="item">
+							<div class="dropdown">
+									<label for="algorithm"><p>Algorithm:</p> </label>
+									<select name="algorithm" id="algorithmSelect">
+							<option value="initial">Select an algorithm</option>
+							<option value="kmeans"><em>k</em>-Means</option>
+						</select>
+							</div>
+					</div>
+					<div class="item">
+							<div id="kvalue-field">
+									<label for="kvalue"><em>k</em> = </label>
+									<input type="number" id="kvalue" name="kvalue" value="2">
+							</div>
+					</div>
+					<div class="item">
+							<div id="runButton">
+									<button type="button" onclick="run()">Run</button>
+							</div>
+					</div>
+					<div class="item">
+							<div id="resetButton">
+									<button type="button" onclick="resetPlot()">Reset</button>
+							</div>
+					</div>
+					<div class="item">
+							<div id="clearButton">
+									<button type="button" onclick="clearPlot()">Clear</button>
+							</div>
+					</div>
+			</div>
+			<div class="plotly">
+					<div id="graph" style="height:100%;"></div>
+			</div>
+			<script>
+					$('[name=algorithm]').change(function() {
+							if (this.value == 'kmeans') $('#kvalue-field').show();
+							else $('#kvalue-field').hide();
+							if (this.value == 'initial') $('#runButton').hide();
+							else $('#runButton').show();
+					});
+
+					function run() {
+							let x = getTraces();
+							let k = document.getElementById("kvalue").value;
+							resetPlot();
+							if (document.getElementById('algorithmSelect').value == 'kmeans') {
+									let c = kmeans(x, k);
+									plotCenteroids(c, k);
+									plotDataToCenteroids(assignDataToCenteroids(x, c), k);
+							}
+					}
+			</script>
+			<script type="text/javascript" src="public/plot.js"></script>
+	</body>
+
 </html>
