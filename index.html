@@ -12,12 +12,7 @@
 							let x = getTraces();
 							let k = document.getElementById("kvalue").value;
 							resetPlot();
-							if (document.getElementById('algorithm').value == 'kmeans') {
-									let c = kmeans(x, k);
-									plotCenteroids(c, k);
-									plotDataToCenteroids(assignDataToCenteroids(x, c), k);
-								alert("blah");
-							}
+							runHandler(x, k);
 					}
 		</script>
 	</head>
@@ -66,6 +61,14 @@
 							if (this.value == 'initial') $('#runButton').hide();
 							else $('#runButton').show();
 					});
+				function runHandler(x, k) {
+					if (document.getElementById('algorithm').value == 'kmeans') {
+									let c = kmeans(x, k);
+									plotCenteroids(c, k);
+									plotDataToCenteroids(assignDataToCenteroids(x, c), k);
+								alert("blah");
+							}
+				}
 			</script>
 			<script type="text/javascript" src="public/browser/plot.js"></script>
 	</body>
