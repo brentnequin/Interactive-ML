@@ -72,6 +72,8 @@ function plotDataToCenteroids(v, k) {
 		Plotly.addTraces(gd, { x: x[i], y: y[i], mode: "markers", type: "scatter", name:"Cluster " + (i+1)}, i+ +k);
 		numTraces += 1;
 	}
+	Plotly.addTraces(gd, {x:[], y:[], mode: "markers", type: "scatter", 'marker.color':d3colors(0)}, [0]); // new data trace
+	numTraces += 1;
 }
 
 /*--- Plot Setup ---*/
