@@ -12,7 +12,6 @@
 							let x = getTraces();
 							let k = document.getElementById("kvalue").value;
 							resetPlot();
-							alert("blah");
 							if (document.getElementById('algorithm').value == 'kmeans') {
 									let c = kmeans(x, k);
 									plotCenteroids(c, k);
