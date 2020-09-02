@@ -7,14 +7,6 @@
 			<link id="cssTheme" rel="stylesheet" href="public/styling/style.css" />
 			<script src="public/browser/plot.js"></script>
 			<script src="public/browser/algorithms/kmeans.js"></script>
-			<script>
-				function run() {
-							let x = getTraces();
-							let k = document.getElementById("kvalue").value;
-							resetPlot();
-							runHandler(x, k);
-					}
-		</script>
 	</head>
 
 	<body>
@@ -61,13 +53,17 @@
 							if (this.value == 'initial') $('#runButton').hide();
 							else $('#runButton').show();
 					});
-				function runHandler(x, k) {
-					if (document.getElementById('algorithm').value == 'kmeans') {
+					function run() {
+							let x = getTraces();
+							let k = document.getElementById("kvalue").value;
+							resetPlot();
+							if (document.getElementById('algorithm').value == 'kmeans') {
 									let c = kmeans(x, k);
 									plotCenteroids(c, k);
 									plotDataToCenteroids(assignDataToCenteroids(x, c), k);
 								alert("blah");
 							}
+					}
 				}
 			</script>
 			<script type="text/javascript" src="public/browser/plot.js"></script>
