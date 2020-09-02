@@ -46,8 +46,6 @@
 			<div class="plotly">
 					<div id="graph" style="height:100%;"></div>
 			</div>
-		<script src="public/browser/algorithms/kmeans.js"></script>
-		<script type="text/javascript" src="public/browser/plot.js"></script>
 			<script>
 					$('[name=algorithm]').change(function() {
 							if (this.value == 'kmeans') $('#kvalue-field').show();
@@ -63,10 +61,10 @@
 									let c = kmeans(x, k);
 									plotCenteroids(c, k);
 									plotDataToCenteroids(assignDataToCenteroids(x, c), k);
-								alert("blah");
 							}
 					}
 			</script>
+		<script src="public/browser/plot.js"></script>
 	</body>
 
 </html>
