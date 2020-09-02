@@ -32,7 +32,6 @@ function attach() {
 }
 
 function changeNamePlot(name) {
-	alert(typeof name);
 	Plotly.relayout(gd, {title: name});
 }
 
