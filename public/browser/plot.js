@@ -15,6 +15,7 @@ function roundHalf(num) {
 	return Math.round(num * 2) / 2;
 }
 
+/*--- Plot Update Functions ---*/
 function attach() {
 	var xaxis = gd._fullLayout.xaxis;
 	var yaxis = gd._fullLayout.yaxis;
@@ -30,7 +31,11 @@ function attach() {
 	});
 }
 
-/*--- Plot Update Functions ---*/
+function changeNamePlot(name) {
+	alert(typeof name);
+	Plotly.relayout(gd, {title: name});
+}
+
 function resetPlot() {
 	for (var i = 0; i < numTraces; i++) {
 		Plotly.deleteTraces(gd, 0);

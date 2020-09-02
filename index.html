@@ -48,6 +48,7 @@
 			</div>
 			<script>
 					$('[name=algorithm]').change(function() {
+							changeNamePlot(this.value);
 							if (this.value == 'kmeans') $('#kvalue-field').show();
 							else $('#kvalue-field').hide();
 							if (this.value == 'initial') $('#runButton').hide();
