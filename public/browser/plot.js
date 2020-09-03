@@ -68,6 +68,10 @@ function plotDataToCenteroids(v, k) {
 	Plotly.deleteTraces(gd, 0);
 	numTraces -= 1;
 	let x = [[],[]]; let y = [[],[]];
+	for (var i = 0; i < k; i++) {
+		x[i] = [];
+		y[i] = [];
+	}
 	for (var i = 0; i < v.length; i++) {
 		x[v[i][2]].push(v[i][0]);
 		y[v[i][2]].push(v[i][1]);
