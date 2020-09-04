@@ -98,8 +98,8 @@ var data = [trace];
 var layout = {
 	title: "Select an Algorithm",
 	hovermode: "closest",
-	yaxis: {title: 'x', fixedrange: true, range: [0, 10], tickmode: "linear" },
-	xaxis: {title: 'y', fixedrange: true, range: [0, 10], tickmode: "linear" },
+	xaxis: {title: 'x', fixedrange: true, range: [0, 10], tickmode: "linear" },
+	yaxis: {title: 'y', fixedrange: true, range: [0, 10], tickmode: "linear" },
 	width: gd.offsetHeight,
 	margin: {
 		t:60,
